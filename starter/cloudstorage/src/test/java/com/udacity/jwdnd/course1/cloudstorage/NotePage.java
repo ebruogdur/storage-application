@@ -1,10 +1,14 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NotePage {
 
@@ -30,6 +34,9 @@ public class NotePage {
 
     @FindBy(css = "#delete-note")
     private WebElement deleteNoteBtn;
+
+    @FindBy(css = "#noteTable")
+    private WebElement noteTable;
 
 
     @FindBy(xpath = "//td[contains(text(),'Hiç Note Yok!')]")
@@ -85,7 +92,28 @@ public class NotePage {
 
 
 
+    public boolean noteExistsInTable(String title,String desc){
 
+        List<WebElement> tableElements = noteTable.findElements(By.tagName("tbody"));
+        List<String> tableThs = new ArrayList();
+        List<String> tableTds = new ArrayList();
+
+        System.out.println(tableElements.size());
+
+        for (int i=0; i <tableElements.size();i++){
+            WebElement tableElement  = tableElements.get(i);
+            List<WebElement> rowTds = tableElement.findElements(By.tagName("td"));
+            for (WebElement rowTd: rowTds) {
+                tableTds.add(rowTd.getText());
+            }
+        }
+
+        if(tableTds.contains(title) && tableTds.contains(desc))
+            return true;
+        else
+            return false;
+
+    }
 
 
 

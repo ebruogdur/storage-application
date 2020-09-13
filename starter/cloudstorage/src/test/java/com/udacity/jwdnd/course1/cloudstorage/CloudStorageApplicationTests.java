@@ -210,7 +210,19 @@ class CloudStorageApplicationTests {
 
 
 
+	@Test
+	@Order(12)
+	public void noteExistsInTable() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/login");
+		loginPage.login(userName, password);
+		notePage.openNoteTab();
+		notePage.addNewNote(note1);
+		Note added = notePage.getNote();
+		boolean b = notePage.noteExistsInTable(added.getNoteTitle(),added.getNoteDescription());
+		assertEquals(true, b);
+		homePage.logout();
 
+	}
 
 
 }
