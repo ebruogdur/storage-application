@@ -98,7 +98,6 @@ public class NotePage {
 
         List<String> tableTds = new ArrayList();
 
-        System.out.println(tableElements.size());
 
         for (int i=0; i <tableElements.size();i++){
             WebElement tableElement  = tableElements.get(i);
