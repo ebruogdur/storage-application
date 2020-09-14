@@ -168,14 +168,10 @@ class CloudStorageApplicationTests {
 		loginPage.login(userName, password);
 		credentialPage.navigateToCredentialTab();
 		credentialPage.addNewCredential(credential1);
-
-		Credential added = credentialPage.getCredential();
-		assertEquals(added.getUrl(), credential1.getUrl());
-		System.out.println(credential1.getPassword()+"/"+added.getPassword());
-		assertEquals(added.getUsername(), credential1.getUsername());
-		assertEquals(added.getPassword(), credential1.getPassword());
+		Credential added=credentialPage.getCredential();
+		assertEquals(true, credentialPage.credentialExistsInTable(added));
 		homePage.logout();
-		Thread.sleep(1000);
+
 	}
 
 	@Test
@@ -185,14 +181,10 @@ class CloudStorageApplicationTests {
 		loginPage.login(userName, password);
 		credentialPage.navigateToCredentialTab();
 		credentialPage.editCredential(credential2);
-
-		Credential edited = credentialPage.getCredential();
-		assertEquals(edited.getUrl(), credential2.getUrl());
-		System.out.println(credential2.getPassword()+"/"+edited.getPassword());
-		assertEquals(edited.getUsername(), credential2.getUsername());
-		assertEquals(edited.getPassword(), credential2.getPassword());
+		Credential edited=credentialPage.getCredential();
+		assertEquals(true, credentialPage.credentialExistsInTable(edited));
 		homePage.logout();
-		Thread.sleep(1000);
+
 	}
 	@Test
 	@Order(11)
@@ -218,8 +210,22 @@ class CloudStorageApplicationTests {
 		notePage.openNoteTab();
 		notePage.addNewNote(note1);
 		Note added = notePage.getNote();
-		boolean b = notePage.noteExistsInTable(added.getNoteTitle(),added.getNoteDescription());
-		assertEquals(true, b);
+		assertEquals(true, notePage.noteExistsInTable(added.getNoteTitle(),added.getNoteDescription()));
+		homePage.logout();
+
+	}
+
+	@Test
+	@Order(13)
+	public void credentialExistsInTable() throws InterruptedException {
+		driver.get("http://localhost:" + port + "/login");
+		loginPage.login(userName, password);
+
+		credentialPage.navigateToCredentialTab();
+		credentialPage.addNewCredential(credential1);
+		Credential added = credentialPage.getCredential();
+
+		assertEquals(true, credentialPage.credentialExistsInTable(added));
 		homePage.logout();
 
 	}

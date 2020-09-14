@@ -95,7 +95,7 @@ public class NotePage {
     public boolean noteExistsInTable(String title,String desc){
 
         List<WebElement> tableElements = noteTable.findElements(By.tagName("tbody"));
-        List<String> tableThs = new ArrayList();
+
         List<String> tableTds = new ArrayList();
 
         System.out.println(tableElements.size());

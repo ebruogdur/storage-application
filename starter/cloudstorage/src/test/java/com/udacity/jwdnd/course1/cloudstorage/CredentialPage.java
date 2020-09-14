@@ -1,10 +1,14 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CredentialPage {
     @FindBy(xpath = "//a[contains(@id,'nav-credentials-tab')]")
@@ -37,6 +41,9 @@ public class CredentialPage {
     @FindBy(xpath = "//td[contains(text(),'Hiç Credential Yok!')]")
     private WebElement noCredentialText;
 
+    @FindBy(css = "#credentialTable")
+    private WebElement credentialTable;
+
 
     public CredentialPage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
@@ -66,6 +73,9 @@ public class CredentialPage {
         this.userNameField.sendKeys(credential.getUsername());
         this.passwordField.sendKeys(credential.getPassword());
         this.saveChangesButton.click();
+
+
+
     }
 
     public void editCredential(Credential credential) throws InterruptedException {
@@ -79,6 +89,9 @@ public class CredentialPage {
         this.passwordField.clear();
         this.passwordField.sendKeys(credential.getPassword());
         this.saveChangesButton.click();
+
+
+
     }
 
     public void deleteCredential() throws InterruptedException {
@@ -90,4 +103,29 @@ public class CredentialPage {
         Thread.sleep(1000);
         return this.noCredentialText.getText();
     }
+
+    public boolean credentialExistsInTable(Credential credential){
+
+        List<WebElement> tableElements = credentialTable.findElements(By.tagName("tbody"));
+
+        List<String> tableTds = new ArrayList();
+
+        System.out.println(tableElements.size());
+
+        for (int i=0; i <tableElements.size();i++){
+            WebElement tableElement  = tableElements.get(i);
+            List<WebElement> rowTds = tableElement.findElements(By.tagName("td"));
+            for (WebElement rowTd: rowTds) {
+                tableTds.add(rowTd.getText());
+            }
+        }
+
+        if(tableTds.contains(credential.getUsername()) && tableTds.contains(credential.getPassword()) && tableTds.contains(credential.getUrl()))
+            return true;
+        else
+            return false;
+
+    }
+
+
 }
