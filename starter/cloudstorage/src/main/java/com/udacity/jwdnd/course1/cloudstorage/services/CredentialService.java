@@ -11,12 +11,10 @@ import java.util.List;
 @Service
 public class CredentialService {
     private final CredentialMapper credentialMapper;
-    private final HashService hashService;
     private  final EncryptionService encryptionService;
 
-    public CredentialService(CredentialMapper credentialMapper, HashService hashService, EncryptionService encryptionService) {
+    public CredentialService(CredentialMapper credentialMapper, EncryptionService encryptionService) {
         this.credentialMapper = credentialMapper;
-        this.hashService = hashService;
         this.encryptionService = encryptionService;
     }
 
